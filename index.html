@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rei da Gestão - Platinum Snow v51</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --surface: rgba(18, 18, 18, 0.96);
+            --surface-light: rgba(255, 255, 255, 0.08);
+            --gold: #d4af37;
+            --gold-grad: linear-gradient(135deg, #b38b2d 0%, #f9e29c 50%, #d4af37 100%);
+            --text-main: #f3f4f6;
+            --text-dim: #9ca3af;
+            --success: #10b981;
+            --danger: #ef4444;
+            --purple: #a855f7;
+            --neon-blue: #00d2ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; padding-bottom: 120px; overflow-x: hidden; }
+
+        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .snowflake { position: absolute; background: white; border-radius: 50%; opacity: 0.3; animation: fall linear infinite; }
+        @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+
+        .container { max-width: 500px; margin: 0 auto; padding: 15px; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        header { padding: 30px 0 10px 0; text-align: center; }
+        .logo { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 2.4rem; 
+            font-weight: 900; 
+            background: var(--gold-grad); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-transform: uppercase; 
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
+            display: inline-block;
+        }
+
+        .header-apoio { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
+        .btn-apoio {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--neon-blue);
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+            animation: pulse-blue 2s infinite;
+        }
+        @keyframes pulse-blue {
+            0%, 100% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(0, 210, 255, 0.8); }
+        }
+        .legenda-apoio { font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 15px; }
+
+        .about-box { background: rgba(255,255,255,0.02); border-left: 2px solid var(--gold); padding: 15px; border-radius: 12px; margin-top: 25px; margin-bottom: 10px; width: 100%; }
+        .about-box strong { color: var(--gold); display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.65rem; font-weight: 800; }
+        .about-line { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-size: 0.72rem; 
+            color: var(--text-dim); 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        .about-line::before { content: "•"; color: var(--gold); margin-right: 8px; font-weight: 900; }
+
+        .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .report-card { background: var(--surface); padding: 15px; border-radius: 18px; border: 1px solid var(--surface-light); text-align: center; }
+        .report-card span { display: block; font-size: 0.6rem; font-weight: 800; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; }
+        .report-card div { font-size: 1.1rem; font-weight: 900; font-family: 'Montserrat'; }
+
+        .card-main { background: var(--surface); padding: 25px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.1); text-align: center; margin-bottom: 20px; }
+        .balance-value { font-size: 2.4rem; font-weight: 900; font-family: 'Montserrat'; margin: 5px 0; }
+
+        .glass-form { background: var(--surface); padding: 20px; border-radius: 24px; border: 1px solid var(--surface-light); margin-bottom: 15px; }
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: #fff; margin-bottom: 10px; font-size: 0.95rem; outline: none; }
+        .btn-submit { width: 100%; padding: 16px; background: #fff; color: #000; border: none; border-radius: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-top: 5px; }
+
+        .divisor-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 20px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .divisor-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.8rem; font-weight: 600; }
+        .divisor-pct { color: var(--gold); font-weight: 900; font-size: 0.9rem; }
+        .divisor-val { font-size: 1.3rem; font-weight: 900; font-family: 'Montserrat'; margin: 5px 0; }
+        
+        input[type="range"] { -webkit-appearance: none; width: 100%; height: 10px; background: #222; border-radius: 10px; margin: 15px 0; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: var(--gold); border-radius: 50%; border: 3px solid #fff; cursor: pointer; }
+
+        .item-row { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--gold); }
+        .delete-btn { background: none; border: none; color: var(--danger); font-size: 1.2rem; cursor: pointer; }
+
+        nav { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 400px; background: rgba(10,10,10,0.98); backdrop-filter: blur(20px); padding: 12px; border-radius: 30px; display: flex; border: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        .nav-link { flex: 1; text-align: center; color: var(--text-dim); text-decoration: none; font-size: 0.6rem; font-weight: 800; opacity: 0.4; }
+        .nav-link.active { color: var(--gold); opacity: 1; }
+        .nav-link span { display: block; font-size: 1.3rem; margin-bottom: 3px; }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="snow-container" id="snow"></div>
+
+<div class="container">
+    <header>
+        <div class="logo">Rei da Gestão</div>
+        <div class="header-apoio">
+            <a href="https://mpago.la/1nuPQr3" target="_blank" class="btn-apoio"><span>🤝</span> Apoiar projeto</a>
+            <span class="legenda-apoio">Apoie nosso projeto via Mercado Pago</span>
+        </div>
+    </header>
+
+    <section id="dash" class="page active">
+        <div class="card-main">
+            <span style="font-size: 0.65rem; letter-spacing: 2px; color: var(--gold); font-weight: 800;">CAPITAL LÍQUIDO DISPONÍVEL</span>
+            <div class="balance-value" id="totalBalance">R$ 0,00</div>
+        </div>
+        <div class="glass-form">
+            <input type="date" id="inputDate">
+            <select id="categorySelect">
+                <option value="Salário / Ganho">💰 Salário / Ganho</option>
+                <option value="Contas Fixas">💳 Contas do Mês</option>
+                <option value="Mercado">🛒 Mercado / Essenciais</option>
+                <option value="Lazer">🎯 Lazer / Apostas</option>
+                <option value="Reserva">💎 Reserva Futura</option>
+            </select>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <input type="number" id="inputValue" placeholder="Valor R$">
+                <select id="inputType"><option value="in">Entrada</option><option value="out" selected>Saída</option></select>
+            </div>
+            <button class="btn-submit" onclick="addEntry()">Efetuar Lançamento</button>
+        </div>
+
+        <div class="about-box">
+            <strong>📊 ARQUITETURA DE FLUXO</strong>
+            <div class="about-line">Gerencie a liquidez de seus ativos em tempo real.</div>
+            <div class="about-line">Mensure a saúde financeira através de categorias.</div>
+            <div class="about-line">Audite entradas e saídas com precisão absoluta.</div>
+            <div class="about-line">Garanta a integridade do seu saldo patrimonial.</div>
+        </div>
+    </section>
+
+    <section id="split" class="page">
+        <div class="glass-form">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <label style="font-size: 0.75rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1.2px;">Montante para Alocação</label>
+                <input type="number" id="splitInput" style="border: 1px solid var(--gold); background: rgba(212,175,55,0.05); font-size: 1.6rem; font-weight: 900; text-align: center; color: var(--gold); margin-top: 10px;" placeholder="R$ 0,00" oninput="calculateSplit()">
+                <p style="font-size: 0.6rem; color: var(--gold); margin-top: 5px; font-weight: 800;">EXEMPLO: 65% CONTAS | 20% GUARDAR | 15% LAZER</p>
+            </div>
+            <div class="divisor-item">
+                <div class="divisor-header"><span>💳 CONTAS DO MÊS</span><span class="divisor-pct" id="pct1">65%</span></div>
+                <div class="divisor-val" id="res1">R$ 0,00</div>
+                <input type="range" id="rg1" min="0" max="100" value="65" oninput="calculateSplit()">
+            </div>
+            <div class="divisor-item">
+                <div class="divisor-header"><span>💎 GUARDAR DINHEIRO</span><span class="divisor-pct" id="pct2">20%</span></div>
+                <div class="divisor-val" id="res2" style="color: var(--success)">R$ 0,00</div>
+                <input type="range" id="rg2" min="0" max="100" value="20" oninput="calculateSplit()">
+            </div>
+            <div class="divisor-item">
+                <div class="divisor-header"><span>🎰 LAZER</span><span class="divisor-pct" id="pct3">15%</span></div>
+                <div class="divisor-val" id="res3">R$ 0,00</div>
+                <input type="range" id="rg3" min="0" max="100" value="15" oninput="calculateSplit()">
+            </div>
+        </div>
+
+        <div class="about-box">
+            <strong>⚖️ ENGENHARIA DE APORTES</strong>
+            <div class="about-line">Distribua aportes conforme sua estratégia atual.</div>
+            <div class="about-line">Otimize a divisão de lucros entre custos e reserva.</div>
+            <div class="about-line">Simule cenários de reinvestimento personalizados.</div>
+            <div class="about-line">Alinhamento dinâmico entre metas e prioridades.</div>
+        </div>
+    </section>
+
+    <section id="repo" class="page">
+        <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+            <select id="filterMonth" onchange="renderHistory()"></select>
+            <select id="filterYear" onchange="renderHistory()"></select>
+        </div>
+        <div class="report-grid">
+            <div class="report-card"><span>Receita</span><div id="monthIn" style="color: var(--success)">R$ 0,00</div></div>
+            <div class="report-card"><span>Despesa</span><div id="monthOut" style="color: var(--danger)">R$ 0,00</div></div>
+            <div class="report-card" style="grid-column: span 2; border-top: 2px solid var(--gold);">
+                <span style="color: var(--gold)">Performance Consolidada</span>
+                <div id="yearTotal" style="font-size: 1.4rem;">R$ 0,00</div>
+            </div>
+            <div class="report-card" style="grid-column: span 2; border-top: 2px solid var(--purple); background: rgba(168, 85, 247, 0.05);">
+                <span style="color: var(--purple)">Rentabilidade em Operações</span>
+                <div id="repoBonusProfit" style="color: var(--purple); font-size: 1.4rem;">R$ 0,00</div>
+            </div>
+        </div>
+        <div id="historyList"></div>
+
+        <div class="about-box">
+            <strong>📁 INTELIGÊNCIA ANALÍTICA</strong>
+            <div class="about-line">Audite o desempenho histórico de sua carteira.</div>
+            <div class="about-line">Identifique padrões de consumo por período.</div>
+            <div class="about-line">Monitore a evolução anual do balanço líquido.</div>
+            <div class="about-line">Dados estruturados para decisões financeiras.</div>
+        </div>
+    </section>
+
+    <section id="bonus" class="page">
+        <div class="card-main" style="border-top: 3px solid var(--purple);">
+            <span style="color: var(--purple); font-size: 0.65rem; font-weight: 800;">LUCRO LÍQUIDO OPERACIONAL</span>
+            <div class="balance-value" id="bonusProfit" style="color: var(--purple);">R$ 0,00</div>
+        </div>
+        <div class="glass-form">
+            <select id="bMethod">
+                <option value="Freebet">🎁 Freebet</option>
+                <option value="Giros Grátis">🎰 Giros Grátis</option>
+                <option value="Giros Grátis - Depósito">💰 Giros Grátis - Depósito</option>
+                <option value="Bônus de Depósito">💳 Bônus de Depósito</option>
+            </select>
+            <input type="date" id="bDate">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <input type="number" id="bIn" placeholder="Investido">
+                <input type="number" id="bOut" placeholder="Retorno">
+            </div>
+            <button class="btn-submit" onclick="addBonus()" style="background: var(--purple); color: #fff;">Confirmar Operação</button>
+        </div>
+        <div id="bonusList"></div>
+
+        <div class="about-box" style="border-left-color: var(--purple);">
+            <strong>🎰 GESTÃO DE MÉTODOS</strong>
+            <div class="about-line">Mensure o ROI individual de suas operações.</div>
+            <div class="about-line">Analise o desempenho entre custo e retorno real.</div>
+            <div class="about-line">Escalabilidade baseada em lucros operacionais.</div>
+            <div class="about-line">Isolamento entre capital pessoal e de risco.</div>
+        </div>
+    </section>
+</div>
+
+<nav>
+    <a href="#" class="nav-link active" onclick="switchPage('dash', this)"><span>📊</span>DASH</a>
+    <a href="#" class="nav-link" onclick="switchPage('split', this)"><span>⚖️</span>DIVISOR</a>
+    <a href="#" class="nav-link" onclick="switchPage('repo', this)"><span>📁</span>RELATÓRIOS</a>
+    <a href="#" class="nav-link" onclick="switchPage('bonus', this)"><span>🎰</span>MÉTODOS</a>
+</nav>
+
+<script>
+    let data = JSON.parse(localStorage.getItem('rei_v51_data')) || [];
+    let bData = JSON.parse(localStorage.getItem('rei_v51_bonus')) || [];
+
+    function init() {
+        document.getElementById('inputDate').valueAsDate = new Date();
+        document.getElementById('bDate').valueAsDate = new Date();
+        fillFilters(); updateBalance(); createSnow(); calculateSplit();
+    }
+
+    function fillFilters() {
+        const mS = document.getElementById('filterMonth');
+        const months = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+        mS.innerHTML = `<option value="all">Todos os Meses</option>`;
+        months.forEach((name, i) => mS.innerHTML += `<option value="${i}">${name}</option>`);
+        const yS = document.getElementById('filterYear');
+        const currentYear = new Date().getFullYear();
+        for(let y = 2024; y <= 2030; y++) yS.innerHTML += `<option value="${y}" ${y === currentYear ? 'selected' : ''}>${y}</option>`;
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        const selMonth = document.getElementById('filterMonth').value;
+        const selYear = document.getElementById('filterYear').value;
+        list.innerHTML = "";
+        let mIn = 0, mOut = 0, yIn = 0, yOut = 0, mBonus = 0;
+
+        data.forEach(i => {
+            const d = new Date(i.date + 'T00:00:00');
+            if(d.getFullYear() == selYear) {
+                if(i.type === 'in') yIn += i.val; else yOut += i.val;
+                if(selMonth === 'all' || d.getMonth() == selMonth) {
+                    if(i.type === 'in') mIn += i.val; else mOut += i.val;
+                    list.innerHTML += `<div class="item-row"><div><strong>${i.desc}</strong><br><small>${i.date}</small></div>
+                        <div style="display:flex;align-items:center;"><span style="color:${i.type === 'in' ? 'var(--success)' : 'var(--danger)'}">R$ ${i.val.toFixed(2)}</span><button class="delete-btn" onclick="removeEntry(${i.id})">×</button></div></div>`;
+                }
+            }
+        });
+
+        bData.forEach(b => {
+            const d = new Date(b.date + 'T00:00:00');
+            if(d.getFullYear() == selYear && (selMonth === 'all' || d.getMonth() == selMonth)) mBonus += b.profit;
+        });
+
+        document.getElementById('monthIn').innerText = `R$ ${mIn.toFixed(2)}`;
+        document.getElementById('monthOut').innerText = `R$ ${mOut.toFixed(2)}`;
+        document.getElementById('yearTotal').innerText = `R$ ${(yIn - yOut).toFixed(2)}`;
+        document.getElementById('repoBonusProfit').innerText = `R$ ${mBonus.toFixed(2)}`;
+    }
+
+    function addEntry() {
+        const val = parseFloat(document.getElementById('inputValue').value);
+        if(!val) return;
+        data.push({ id: Date.now(), date: document.getElementById('inputDate').value, desc: document.getElementById('categorySelect').value, val, type: document.getElementById('inputType').value });
+        localStorage.setItem('rei_v51_data', JSON.stringify(data));
+        updateBalance(); alert("Efetivado com sucesso!");
+        document.getElementById('inputValue').value = '';
+    }
+
+    function addBonus() {
+        const m = document.getElementById('bMethod').value; const d = document.getElementById('bDate').value;
+        const i = parseFloat(document.getElementById('bIn').value) || 0; const o = parseFloat(document.getElementById('bOut').value) || 0;
+        if(!d) return;
+        bData.push({ id: Date.now(), title: m, date: d, profit: o - i });
+        localStorage.setItem('rei_v51_bonus', JSON.stringify(bData));
+        renderBonus();
+        document.getElementById('bIn').value = ''; document.getElementById('bOut').value = '';
+    }
+
+    function renderBonus() {
+        const list = document.getElementById('bonusList'); let total = 0; list.innerHTML = "";
+        bData.forEach(b => { total += b.profit; list.innerHTML += `<div class="item-row" style="border-left-color:var(--purple)"><span><strong>${b.title}</strong><br><small>${b.date}</small></span><div style="display:flex;align-items:center;"><span style="color:${b.profit >= 0 ? 'var(--success)' : 'var(--danger)'}">R$ ${b.profit.toFixed(2)}</span><button class="delete-btn" onclick="removeBonus(${b.id})">×</button></div></div>`; });
+        document.getElementById('bonusProfit').innerText = `R$ ${total.toFixed(2)}`;
+    }
+
+    function calculateSplit() {
+        const val = parseFloat(document.getElementById('splitInput').value) || 0;
+        const p1 = parseInt(document.getElementById('rg1').value); 
+        const p2 = parseInt(document.getElementById('rg2').value); 
+        const p3 = parseInt(document.getElementById('rg3').value);
+        document.getElementById('pct1').innerText = p1 + '%'; 
+        document.getElementById('pct2').innerText = p2 + '%'; 
+        document.getElementById('pct3').innerText = p3 + '%';
+        document.getElementById('res1').innerText = `R$ ${(val * p1 / 100).toFixed(2)}`; 
+        document.getElementById('res2').innerText = `R$ ${(val * p2 / 100).toFixed(2)}`; 
+        document.getElementById('res3').innerText = `R$ ${(val * p3 / 100).toFixed(2)}`;
+    }
+
+    function updateBalance() {
+        let b = 0; data.forEach(i => b += (i.type === 'in' ? i.val : -i.val));
+        document.getElementById('totalBalance').innerText = `R$ ${b.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+    }
+
+    function switchPage(p, el) {
+        document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(p).classList.add('active'); el.classList.add('active');
+        if(p === 'repo') renderHistory(); if(p === 'bonus') renderBonus();
+    }
+
+    function removeEntry(id) { data = data.filter(i => i.id !== id); localStorage.setItem('rei_v51_data', JSON.stringify(data)); renderHistory(); updateBalance(); }
+    function removeBonus(id) { bData = bData.filter(i => i.id !== id); localStorage.setItem('rei_v51_bonus', JSON.stringify(bData)); renderBonus(); }
+    function createSnow() { const snow = document.getElementById('snow'); for (let i = 0; i < 20; i++) { const f = document.createElement('div'); f.className = 'snowflake'; f.style.width = f.style.height = Math.random() * 3 + 2 + 'px'; f.style.left = Math.random() * 100 + 'vw'; f.style.animationDuration = Math.random() * 4 + 6 + 's'; snow.appendChild(f); } }
+    init();
+</script>
+</body>
+</html>
