@@ -46,7 +46,6 @@
         }
 
         .header-apoio { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; gap: 12px; }
-        
         .btn-apoio {
             display: inline-flex; align-items: center; justify-content: center;
             background: rgba(0, 210, 255, 0.1); color: var(--neon-blue);
@@ -56,8 +55,6 @@
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); animation: pulse-blue 2s infinite;
             width: 85%;
         }
-
-        /* BOTÃO APK VERDE NEON */
         .btn-apk {
             display: inline-flex; align-items: center; justify-content: center;
             background: rgba(57, 255, 20, 0.1); color: var(--neon-green);
@@ -67,17 +64,8 @@
             box-shadow: 0 0 15px rgba(57, 255, 20, 0.4); animation: pulse-green 2s infinite;
             width: 85%;
         }
-
-        @keyframes pulse-blue {
-            0%, 100% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.4); }
-            50% { box-shadow: 0 0 20px rgba(0, 210, 255, 0.8); }
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.4); }
-            50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.8); }
-        }
-
+        @keyframes pulse-blue { 0%, 100% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.4); } 50% { box-shadow: 0 0 20px rgba(0, 210, 255, 0.8); } }
+        @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.4); } 50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.8); } }
         .legenda-apoio { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; max-width: 90%; }
 
         .about-box { background: rgba(255,255,255,0.02); border-left: 2px solid var(--gold); padding: 15px; border-radius: 12px; margin-top: 25px; margin-bottom: 10px; width: 100%; }
@@ -90,9 +78,9 @@
         .report-card span { display: block; font-size: 0.6rem; font-weight: 800; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; }
         .report-card div { font-size: 1.1rem; font-weight: 900; font-family: 'Montserrat'; }
 
-        .lazer-tracker { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; border: 1px solid var(--surface-light); border-top: 2px solid #fff; margin-bottom: 15px; }
-        .lazer-header { display: flex; justify-content: space-between; font-size: 0.65rem; font-weight: 800; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
-        .progress-container { width: 100%; height: 8px; background: #222; border-radius: 10px; overflow: hidden; }
+        .lazer-tracker { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 15px; border: 1px solid var(--surface-light); border-top: 2px solid #fff; margin: 0 auto 15px auto; width: 90%; }
+        .lazer-header { display: flex; justify-content: space-between; font-size: 0.6rem; font-weight: 800; color: #fff; margin-bottom: 8px; text-transform: uppercase; }
+        .progress-container { width: 100%; height: 6px; background: #222; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; transition: width 0.5s ease; border-radius: 10px; background: var(--gold); }
 
         .card-main { background: var(--surface); padding: 25px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.1); text-align: center; margin-bottom: 20px; }
@@ -149,7 +137,7 @@
                 <option value="Salário / Ganho">💰 Salário / Ganho</option>
                 <option value="Contas Fixas">💳 Contas do Mês</option>
                 <option value="Mercado">🛒 Mercado / Essenciais</option>
-                <option value="Lazer">🎯 Lazer / Apostas</option>
+                <option value="Lazer / Apostas">🎯 Lazer / Apostas</option>
                 <option value="Reserva">💎 Reserva Futura</option>
                 <option value="outro">✍️ Outro (Escrever)</option>
             </select>
@@ -217,17 +205,17 @@
             </div>
         </div>
 
-        <div class="lazer-tracker">
-            <div class="lazer-header"><span>🎯 ÍNDICE DE LAZER / APOSTAS</span><span id="lazerPct">0%</span></div>
-            <div class="progress-container"><div id="lazerBar" class="progress-fill" style="width: 0%;"></div></div>
-            <p style="font-size: 0.55rem; color: #fff; margin-top: 8px; text-align: center; opacity: 0.7;">MENSURAÇÃO DE SALDO EM OPERAÇÕES DE LAZER</p>
-        </div>
-
         <div class="report-grid">
             <div class="report-card" style="grid-column: span 2; border-top: 2px solid var(--purple); background: rgba(168, 85, 247, 0.05);">
                 <span style="color: var(--purple)">Rentabilidade em Operações (Métodos)</span>
                 <div id="repoBonusProfit" style="color: var(--purple); font-size: 1.4rem;">R$ 0,00</div>
             </div>
+        </div>
+
+        <div class="lazer-tracker">
+            <div class="lazer-header"><span>🎯 ÍNDICE DE LAZER / APOSTAS</span><span id="lazerPct">0%</span></div>
+            <div class="progress-container"><div id="lazerBar" class="progress-fill" style="width: 0%;"></div></div>
+            <p style="font-size: 0.5rem; color: #fff; margin-top: 5px; text-align: center; opacity: 0.7;">DESEMPENHO REAL (LUCRO VS PERDA)</p>
         </div>
 
         <div id="historyList"></div>
@@ -312,7 +300,9 @@
                 if(i.type === 'in') yIn += i.val; else yOut += i.val;
                 if(selMonth === 'all' || d.getMonth() == selMonth) {
                     if(i.type === 'in') mIn += i.val; else mOut += i.val;
-                    if(i.desc.includes("Lazer")) { if(i.type === 'in') lIn += i.val; else lOut += i.val; }
+                    if(i.desc === "Lazer / Apostas") { 
+                        if(i.type === 'in') lIn += i.val; else lOut += i.val; 
+                    }
                     list.innerHTML += `<div class="item-row"><div><strong>${i.desc}</strong><br><small>${i.date}</small></div>
                         <div style="display:flex;align-items:center;"><span style="color:${i.type === 'in' ? 'var(--success)' : 'var(--danger)'}">R$ ${i.val.toFixed(2)}</span><button class="delete-btn" onclick="removeEntry(${i.id})">×</button></div></div>`;
                 }
@@ -329,8 +319,17 @@
         document.getElementById('yearTotal').innerText = `R$ ${(yIn - yOut).toFixed(2)}`;
         document.getElementById('repoBonusProfit').innerText = `R$ ${mBonus.toFixed(2)}`;
         
-        const totalLazer = lIn + lOut;
-        const pct = totalLazer > 0 ? (lIn / totalLazer) * 100 : 0;
+        // AJUSTE AUTOMÁTICO: A barra sobe com lucro e desce com perda
+        const totalLazerMovimentado = lIn + lOut;
+        let pct = 0;
+        if(totalLazerMovimentado > 0) {
+            // Se o lucro for maior que a perda, a barra preenche proporcionalmente
+            // Se a perda for maior, ela esvazia.
+            pct = ((lIn - lOut) / totalLazerMovimentado) * 100;
+            if (pct < 0) pct = 0; // Evita barra negativa
+            if (pct > 100) pct = 100;
+        }
+
         document.getElementById('lazerBar').style.width = pct + '%';
         document.getElementById('lazerPct').innerText = Math.round(pct) + '%';
     }
