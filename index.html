@@ -46,21 +46,12 @@
 
         .header-apoio { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
         .btn-apoio {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 210, 255, 0.1);
-            color: var(--neon-blue);
-            text-decoration: none;
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
-            animation: pulse-blue 2s infinite;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(0, 210, 255, 0.1); color: var(--neon-blue);
+            text-decoration: none; padding: 10px 22px; border-radius: 50px;
+            font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 1px; border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); animation: pulse-blue 2s infinite;
         }
         @keyframes pulse-blue {
             0%, 100% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.4); }
@@ -68,23 +59,21 @@
         }
         .legenda-apoio { font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 15px; }
 
+        /* SOBRE */
         .about-box { background: rgba(255,255,255,0.02); border-left: 2px solid var(--gold); padding: 15px; border-radius: 12px; margin-top: 25px; margin-bottom: 10px; width: 100%; }
         .about-box strong { color: var(--gold); display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.65rem; font-weight: 800; }
-        .about-line { 
-            display: block; 
-            margin-bottom: 6px; 
-            font-size: 0.72rem; 
-            color: var(--text-dim); 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-        }
+        .about-line { display: block; margin-bottom: 6px; font-size: 0.72rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .about-line::before { content: "•"; color: var(--gold); margin-right: 8px; font-weight: 900; }
 
         .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .report-card { background: var(--surface); padding: 15px; border-radius: 18px; border: 1px solid var(--surface-light); text-align: center; }
         .report-card span { display: block; font-size: 0.6rem; font-weight: 800; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; }
         .report-card div { font-size: 1.1rem; font-weight: 900; font-family: 'Montserrat'; }
+
+        .lazer-tracker { background: var(--surface); padding: 15px; border-radius: 20px; border: 1px solid var(--surface-light); margin-bottom: 15px; }
+        .lazer-header { display: flex; justify-content: space-between; font-size: 0.65rem; font-weight: 800; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; }
+        .progress-container { width: 100%; height: 8px; background: #222; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; transition: width 0.5s ease; border-radius: 10px; background: var(--gold); }
 
         .card-main { background: var(--surface); padding: 25px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.1); text-align: center; margin-bottom: 20px; }
         .balance-value { font-size: 2.4rem; font-weight: 900; font-family: 'Montserrat'; margin: 5px 0; }
@@ -112,6 +101,7 @@
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #hiddenDesc { display: none; }
     </style>
 </head>
 <body>
@@ -134,13 +124,15 @@
         </div>
         <div class="glass-form">
             <input type="date" id="inputDate">
-            <select id="categorySelect">
+            <select id="categorySelect" onchange="toggleOtherInput()">
                 <option value="Salário / Ganho">💰 Salário / Ganho</option>
                 <option value="Contas Fixas">💳 Contas do Mês</option>
                 <option value="Mercado">🛒 Mercado / Essenciais</option>
                 <option value="Lazer">🎯 Lazer / Apostas</option>
                 <option value="Reserva">💎 Reserva Futura</option>
+                <option value="outro">✍️ Outro (Escrever)</option>
             </select>
+            <div id="hiddenDesc"><input type="text" id="inputDesc" placeholder="Escreva aqui da onde é o dinheiro..."></div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <input type="number" id="inputValue" placeholder="Valor R$">
                 <select id="inputType"><option value="in">Entrada</option><option value="out" selected>Saída</option></select>
@@ -202,11 +194,21 @@
                 <span style="color: var(--gold)">Performance Consolidada</span>
                 <div id="yearTotal" style="font-size: 1.4rem;">R$ 0,00</div>
             </div>
+        </div>
+
+        <div class="lazer-tracker">
+            <div class="lazer-header"><span>🎯 ÍNDICE DE LAZER</span><span id="lazerPct">0%</span></div>
+            <div class="progress-container"><div id="lazerBar" class="progress-fill" style="width: 0%;"></div></div>
+            <p style="font-size: 0.55rem; color: var(--text-dim); margin-top: 8px; text-align: center;">MENSURAÇÃO DE SALDO EM APOSTAS/LAZER</p>
+        </div>
+
+        <div class="report-grid">
             <div class="report-card" style="grid-column: span 2; border-top: 2px solid var(--purple); background: rgba(168, 85, 247, 0.05);">
-                <span style="color: var(--purple)">Rentabilidade em Operações</span>
+                <span style="color: var(--purple)">Rentabilidade em Operações (Métodos)</span>
                 <div id="repoBonusProfit" style="color: var(--purple); font-size: 1.4rem;">R$ 0,00</div>
             </div>
         </div>
+
         <div id="historyList"></div>
 
         <div class="about-box">
@@ -281,7 +283,7 @@
         const selMonth = document.getElementById('filterMonth').value;
         const selYear = document.getElementById('filterYear').value;
         list.innerHTML = "";
-        let mIn = 0, mOut = 0, yIn = 0, yOut = 0, mBonus = 0;
+        let mIn = 0, mOut = 0, yIn = 0, yOut = 0, lIn = 0, lOut = 0, mBonus = 0;
 
         data.forEach(i => {
             const d = new Date(i.date + 'T00:00:00');
@@ -289,6 +291,7 @@
                 if(i.type === 'in') yIn += i.val; else yOut += i.val;
                 if(selMonth === 'all' || d.getMonth() == selMonth) {
                     if(i.type === 'in') mIn += i.val; else mOut += i.val;
+                    if(i.desc.includes("Lazer")) { if(i.type === 'in') lIn += i.val; else lOut += i.val; }
                     list.innerHTML += `<div class="item-row"><div><strong>${i.desc}</strong><br><small>${i.date}</small></div>
                         <div style="display:flex;align-items:center;"><span style="color:${i.type === 'in' ? 'var(--success)' : 'var(--danger)'}">R$ ${i.val.toFixed(2)}</span><button class="delete-btn" onclick="removeEntry(${i.id})">×</button></div></div>`;
                 }
@@ -304,15 +307,22 @@
         document.getElementById('monthOut').innerText = `R$ ${mOut.toFixed(2)}`;
         document.getElementById('yearTotal').innerText = `R$ ${(yIn - yOut).toFixed(2)}`;
         document.getElementById('repoBonusProfit').innerText = `R$ ${mBonus.toFixed(2)}`;
+        
+        const totalLazer = lIn + lOut;
+        const pct = totalLazer > 0 ? (lIn / totalLazer) * 100 : 0;
+        document.getElementById('lazerBar').style.width = pct + '%';
+        document.getElementById('lazerPct').innerText = Math.round(pct) + '%';
     }
 
     function addEntry() {
         const val = parseFloat(document.getElementById('inputValue').value);
         if(!val) return;
-        data.push({ id: Date.now(), date: document.getElementById('inputDate').value, desc: document.getElementById('categorySelect').value, val, type: document.getElementById('inputType').value });
+        const desc = document.getElementById('categorySelect').value === 'outro' ? document.getElementById('inputDesc').value : document.getElementById('categorySelect').value;
+        data.push({ id: Date.now(), date: document.getElementById('inputDate').value, desc: desc || "Geral", val, type: document.getElementById('inputType').value });
         localStorage.setItem('rei_v51_data', JSON.stringify(data));
         updateBalance(); alert("Efetivado com sucesso!");
         document.getElementById('inputValue').value = '';
+        document.getElementById('inputDesc').value = '';
     }
 
     function addBonus() {
@@ -358,6 +368,7 @@
 
     function removeEntry(id) { data = data.filter(i => i.id !== id); localStorage.setItem('rei_v51_data', JSON.stringify(data)); renderHistory(); updateBalance(); }
     function removeBonus(id) { bData = bData.filter(i => i.id !== id); localStorage.setItem('rei_v51_bonus', JSON.stringify(bData)); renderBonus(); }
+    function toggleOtherInput() { document.getElementById('hiddenDesc').style.display = (document.getElementById('categorySelect').value === 'outro') ? 'block' : 'none'; }
     function createSnow() { const snow = document.getElementById('snow'); for (let i = 0; i < 20; i++) { const f = document.createElement('div'); f.className = 'snowflake'; f.style.width = f.style.height = Math.random() * 3 + 2 + 'px'; f.style.left = Math.random() * 100 + 'vw'; f.style.animationDuration = Math.random() * 4 + 6 + 's'; snow.appendChild(f); } }
     init();
 </script>
