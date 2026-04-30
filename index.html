@@ -66,7 +66,17 @@
         }
         @keyframes pulse-blue { 0%, 100% { box-shadow: 0 0 5px rgba(0, 210, 255, 0.4); } 50% { box-shadow: 0 0 20px rgba(0, 210, 255, 0.8); } }
         @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.4); } 50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.8); } }
-        .legenda-apoio { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; max-width: 90%; }
+        
+        /* AJUSTE DE ESPAÇAMENTO SOLICITADO */
+        .legenda-apoio { 
+            font-size: 0.6rem; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            line-height: 1.4; 
+            max-width: 90%; 
+            margin-top: 15px; /* Espaço aumentado aqui */
+        }
 
         .about-box { background: rgba(255,255,255,0.02); border-left: 2px solid var(--gold); padding: 15px; border-radius: 12px; margin-top: 25px; margin-bottom: 10px; width: 100%; }
         .about-box strong { color: var(--gold); display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.65rem; font-weight: 800; }
@@ -78,7 +88,6 @@
         .report-card span { display: block; font-size: 0.6rem; font-weight: 800; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; }
         .report-card div { font-size: 1.1rem; font-weight: 900; font-family: 'Montserrat'; }
 
-        /* CAIXA DE LAZER AJUSTADA PARA TAMANHO PADRÃO */
         .lazer-tracker { background: var(--surface); padding: 15px; border-radius: 18px; border: 1px solid var(--surface-light); border-top: 2px solid #fff; margin-bottom: 15px; width: 100%; }
         .lazer-header { display: flex; justify-content: space-between; font-size: 0.6rem; font-weight: 800; color: #fff; margin-bottom: 8px; text-transform: uppercase; }
         .progress-container { width: 100%; height: 6px; background: #222; border-radius: 10px; overflow: hidden; }
@@ -159,36 +168,33 @@
         </div>
     </section>
 
-    <section id="split" class="page">
-        <div class="glass-form">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <label style="font-size: 0.75rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1.2px;">Montante para Alocação</label>
-                <input type="number" id="splitInput" style="border: 1px solid var(--gold); background: rgba(212,175,55,0.05); font-size: 1.6rem; font-weight: 900; text-align: center; color: var(--gold); margin-top: 10px;" placeholder="R$ 0,00" oninput="calculateSplit()">
-                <p style="font-size: 0.6rem; color: var(--gold); margin-top: 5px; font-weight: 800;">EXEMPLO: 65% CONTAS | 20% GUARDAR | 15% LAZER</p>
-            </div>
-            <div class="divisor-item">
-                <div class="divisor-header"><span>💳 CONTAS DO MÊS</span><span class="divisor-pct" id="pct1">65%</span></div>
-                <div class="divisor-val" id="res1">R$ 0,00</div>
-                <input type="range" id="rg1" min="0" max="100" value="65" oninput="calculateSplit()">
-            </div>
-            <div class="divisor-item">
-                <div class="divisor-header"><span>💎 GUARDAR DINHEIRO</span><span class="divisor-pct" id="pct2">20%</span></div>
-                <div class="divisor-val" id="res2" style="color: var(--success)">R$ 0,00</div>
-                <input type="range" id="rg2" min="0" max="100" value="20" oninput="calculateSplit()">
-            </div>
-            <div class="divisor-item">
-                <div class="divisor-header"><span>🎰 LAZER</span><span class="divisor-pct" id="pct3">15%</span></div>
-                <div class="divisor-val" id="res3">R$ 0,00</div>
-                <input type="range" id="rg3" min="0" max="100" value="15" oninput="calculateSplit()">
-            </div>
+    <section id="bonus" class="page">
+        <div class="card-main" style="border-top: 3px solid var(--purple);">
+            <span style="color: var(--purple); font-size: 0.65rem; font-weight: 800;">LUCRO LÍQUIDO OPERACIONAL</span>
+            <div class="balance-value" id="bonusProfit" style="color: var(--purple);">R$ 0,00</div>
         </div>
+        <div class="glass-form">
+            <select id="bMethod">
+                <option value="Freebet">🎁 Freebet</option>
+                <option value="Giros Grátis">🎰 Giros Grátis</option>
+                <option value="Giros Grátis - Depósito">💰 Giros Grátis - Depósito</option>
+                <option value="Bônus de Depósito">💳 Bônus de Depósito</option>
+            </select>
+            <input type="date" id="bDate">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <input type="number" id="bIn" placeholder="Investido">
+                <input type="number" id="bOut" placeholder="Retorno">
+            </div>
+            <button class="btn-submit" onclick="addBonus()" style="background: var(--purple); color: #fff;">Confirmar Operação</button>
+        </div>
+        <div id="bonusList"></div>
 
-        <div class="about-box">
-            <strong>⚖️ ENGENHARIA DE APORTES</strong>
-            <div class="about-line">Distribua aportes conforme sua estratégia atual.</div>
-            <div class="about-line">Otimize a divisão de lucros entre custos e reserva.</div>
-            <div class="about-line">Simule cenários de reinvestimento personalizados.</div>
-            <div class="about-line">Alinhamento dinâmico entre metas e prioridades.</div>
+        <div class="about-box" style="border-left-color: var(--purple);">
+            <strong>🎰 GESTÃO DE MÉTODOS</strong>
+            <div class="about-line">Mensure o ROI individual de suas operações.</div>
+            <div class="about-line">Analise o desempenho entre custo e retorno real.</div>
+            <div class="about-line">Escalabilidade baseada em lucros operacionais.</div>
+            <div class="about-line">Isolamento entre capital pessoal e de risco.</div>
         </div>
     </section>
 
@@ -230,42 +236,45 @@
         </div>
     </section>
 
-    <section id="bonus" class="page">
-        <div class="card-main" style="border-top: 3px solid var(--purple);">
-            <span style="color: var(--purple); font-size: 0.65rem; font-weight: 800;">LUCRO LÍQUIDO OPERACIONAL</span>
-            <div class="balance-value" id="bonusProfit" style="color: var(--purple);">R$ 0,00</div>
-        </div>
+    <section id="split" class="page">
         <div class="glass-form">
-            <select id="bMethod">
-                <option value="Freebet">🎁 Freebet</option>
-                <option value="Giros Grátis">🎰 Giros Grátis</option>
-                <option value="Giros Grátis - Depósito">💰 Giros Grátis - Depósito</option>
-                <option value="Bônus de Depósito">💳 Bônus de Depósito</option>
-            </select>
-            <input type="date" id="bDate">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <input type="number" id="bIn" placeholder="Investido">
-                <input type="number" id="bOut" placeholder="Retorno">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <label style="font-size: 0.75rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1.2px;">Montante para Alocação</label>
+                <input type="number" id="splitInput" style="border: 1px solid var(--gold); background: rgba(212,175,55,0.05); font-size: 1.6rem; font-weight: 900; text-align: center; color: var(--gold); margin-top: 10px;" placeholder="R$ 0,00" oninput="calculateSplit()">
+                <p style="font-size: 0.6rem; color: var(--gold); margin-top: 5px; font-weight: 800;">EXEMPLO: 65% CONTAS | 20% GUARDAR | 15% LAZER</p>
             </div>
-            <button class="btn-submit" onclick="addBonus()" style="background: var(--purple); color: #fff;">Confirmar Operação</button>
+            <div class="divisor-item">
+                <div class="divisor-header"><span>💳 CONTAS DO MÊS</span><span class="divisor-pct" id="pct1">65%</span></div>
+                <div class="divisor-val" id="res1">R$ 0,00</div>
+                <input type="range" id="rg1" min="0" max="100" value="65" oninput="calculateSplit()">
+            </div>
+            <div class="divisor-item">
+                <div class="divisor-header"><span>💎 GUARDAR DINHEIRO</span><span class="divisor-pct" id="pct2">20%</span></div>
+                <div class="divisor-val" id="res2" style="color: var(--success)">R$ 0,00</div>
+                <input type="range" id="rg2" min="0" max="100" value="20" oninput="calculateSplit()">
+            </div>
+            <div class="divisor-item">
+                <div class="divisor-header"><span>🎰 LAZER</span><span class="divisor-pct" id="pct3">15%</span></div>
+                <div class="divisor-val" id="res3">R$ 0,00</div>
+                <input type="range" id="rg3" min="0" max="100" value="15" oninput="calculateSplit()">
+            </div>
         </div>
-        <div id="bonusList"></div>
 
-        <div class="about-box" style="border-left-color: var(--purple);">
-            <strong>🎰 GESTÃO DE MÉTODOS</strong>
-            <div class="about-line">Mensure o ROI individual de suas operações.</div>
-            <div class="about-line">Analise o desempenho entre custo e retorno real.</div>
-            <div class="about-line">Escalabilidade baseada em lucros operacionais.</div>
-            <div class="about-line">Isolamento entre capital pessoal e de risco.</div>
+        <div class="about-box">
+            <strong>⚖️ ENGENHARIA DE APORTES</strong>
+            <div class="about-line">Distribua aportes conforme sua estratégia atual.</div>
+            <div class="about-line">Otimize a divisão de lucros entre custos e reserva.</div>
+            <div class="about-line">Simule cenários de reinvestimento personalizados.</div>
+            <div class="about-line">Alinhamento dinâmico entre metas e prioridades.</div>
         </div>
     </section>
 </div>
 
 <nav>
     <a href="#" class="nav-link active" onclick="switchPage('dash', this)"><span>📊</span>DASH</a>
-    <a href="#" class="nav-link" onclick="switchPage('split', this)"><span>⚖️</span>DIVISOR</a>
-    <a href="#" class="nav-link" onclick="switchPage('repo', this)"><span>📁</span>RELATÓRIOS</a>
     <a href="#" class="nav-link" onclick="switchPage('bonus', this)"><span>🎰</span>MÉTODOS</a>
+    <a href="#" class="nav-link" onclick="switchPage('repo', this)"><span>📁</span>RELATÓRIOS</a>
+    <a href="#" class="nav-link" onclick="switchPage('split', this)"><span>⚖️</span>DIVISOR</a>
 </nav>
 
 <script>
@@ -392,4 +401,3 @@
 </script>
 </body>
 </html>
-
